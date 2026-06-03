@@ -1,5 +1,5 @@
 const CHOICES = ["rock", "paper", "scissors"];
-const MAX_ROUNDS = 5; // Maximum round cap
+const MAX_ROUNDS = 5;
 
 const gameTracker = {
   humanChoices: [],
@@ -7,38 +7,57 @@ const gameTracker = {
   stats: { humanWins: 0, computerWins: 0, ties: 0 },
 };
 
-function playRound(humanChoice) {
-  // 1. Check if the maximum rounds limit has already been reached
-  const totalRoundsPlayed = gameTracker.humanChoices.length;
-  if (totalRoundsPlayed >= MAX_ROUNDS) {
-    console.warn(`Game Over! Maximum limit of ${MAX_ROUNDS} rounds reached.`);
-    displayFinalWinner();
-    return;
+function startBrowserGame() {
+  alert(
+    "=== WELCOME TO ROCK, PAPER, SCISSORS ===\nClick OK to start your 5-round match!",
+  );
+
+  while (gameTracker.humanChoices.length < MAX_ROUNDS) {
+    const currentRound = gameTracker.humanChoices.length + 1;
+
+    // Open a browser input popup
+    const userInput = prompt(
+      `[Round ${currentRound}/${MAX_ROUNDS}]\nType rock, paper, or scissors:`,
+    );
+
+    // Handle the user clicking "Cancel"
+    if (userInput === null) {
+      alert("Game canceled by user.");
+      return;
+    }
+
+    const humanSelection = userInput.trim().toLowerCase();
+
+    if (!CHOICES.includes(humanSelection)) {
+      alert(
+        "❌ Invalid choice! please check typos: rock, paper, or scissors.",
+      );
+      continue;
+    }
+
+    playRound(humanSelection);
   }
+}
 
-  // 2. Validate input
-  const humanSelection = humanChoice.toLowerCase();
-  if (!CHOICES.includes(humanSelection)) {
-    console.error("Invalid choice! Choose rock, paper, or scissors.");
-    return;
-  }
+function playRound(humanSelection) {
+  const computerSelection = CHOICES[Math.floor(Math.random() * CHOICES.length)];
 
-  // 3. Generate computer choice
-  const randomIndex = Math.floor(Math.random() * CHOICES.length);
-  const computerSelection = CHOICES[randomIndex];
-
-  // 4. Save choices to history
   gameTracker.humanChoices.push(humanSelection);
   gameTracker.computerChoices.push(computerSelection);
 
-  // 5. Calculate winner and track data
   const result = getRoundWinner(humanSelection, computerSelection);
   updateStats(result);
-  logRoundSummary(humanSelection, computerSelection, result);
 
-  // 6. Proactively check if this was the final round
+  // Alert the result of the current round
+  alert(
+    `Round ${gameTracker.humanChoices.length}/${MAX_ROUNDS}\n\n` +
+      `You chose: ${humanSelection.toUpperCase()}\n` +
+      `Computer chose: ${computerSelection.toUpperCase()}\n\n` +
+      `Winner: ${result === "tie" ? "IT'S A TIE!" : result.toUpperCase()}\n\n` +
+      `Score: Human ${gameTracker.stats.humanWins} | Computer ${gameTracker.stats.computerWins} | Ties ${gameTracker.stats.ties}`,
+  );
+
   if (gameTracker.humanChoices.length === MAX_ROUNDS) {
-    console.log("FINAL ROUND COMPLETED");
     displayFinalWinner();
   }
 }
@@ -55,29 +74,20 @@ function updateStats(result) {
   else gameTracker.stats.ties++;
 }
 
-function logRoundSummary(human, computer, result) {
-  console.log(`Round ${gameTracker.humanChoices.length}/${MAX_ROUNDS}`);
-  console.log(
-    `Human: ${human.toUpperCase()} | Computer: ${computer.toUpperCase()}`,
-  );
-  console.log(`Winner: ${result.toUpperCase()}`);
-  console.log("Current Score:", gameTracker.stats);
-  console.log("------------------------");
-}
-
-// New helper function to declare the absolute winner
 function displayFinalWinner() {
   const { humanWins, computerWins } = gameTracker.stats;
-  console.log("=== FINAL MATCH RESULTS ===");
+  let finalMessage = "=== FINAL MATCH RESULTS ===\n\n";
+
   if (humanWins > computerWins) {
-    console.log(`🎉 Human wins the series (${humanWins} to ${computerWins})!`);
+    finalMessage += `🎉 You won the series (${humanWins} to ${computerWins})!`;
   } else if (computerWins > humanWins) {
-    console.log(
-      `🤖 Computer wins the series (${computerWins} to ${humanWins})!`,
-    );
+    finalMessage += `🤖 The computer won the series (${computerWins} to ${humanWins}).`;
   } else {
-    console.log(
-      `🤝 The entire match is a tie (${humanWins} to ${computerWins})!`,
-    );
+    finalMessage += `🤝 The match ended in an overall tie (${humanWins} to ${computerWins})!`;
   }
+
+  alert(finalMessage);
 }
+
+// Fire the game window loops immediately
+startBrowserGame();

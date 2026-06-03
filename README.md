@@ -1,1 +1,2 @@
 # rockPaperScissor
+This is a simple implementation of the classic game "Rock, Paper, Scissors" in JavaScript. The game allows a human player to compete against the computer by selecting one of the three options: rock, paper, or scissors. The computer randomly selects its choice, and the winner is determined based on the standard rules of the game.
