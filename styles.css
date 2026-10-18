@@ -1,0 +1,81 @@
+:root {
+  color-scheme: dark;
+  --black: #080909;
+  --panel: #111312;
+  --line: #303430;
+  --muted: #929891;
+  --lime: #c8ff29;
+  --white: #f4f6ee;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--black);
+  color: var(--white);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button, a { font: inherit; }
+button { cursor: pointer; }
+
+.app-shell { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 30px 0; border-bottom: 1px solid var(--line); }
+.brand, .topbar-meta { display: flex; align-items: center; gap: 12px; }
+.brand { color: var(--white); text-decoration: none; font-weight: 800; letter-spacing: .12em; }
+.brand-mark { color: var(--black); background: var(--lime); padding: 8px 7px; font-size: 12px; letter-spacing: 0; }
+.brand-name, .topbar-meta, .eyebrow, .section-label, .footer, .score-label { font-size: 11px; letter-spacing: .16em; }
+.topbar-meta { color: var(--muted); }
+.online-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
+.icon-button { border: 0; background: none; color: var(--muted); font-size: 20px; padding: 4px; }
+.icon-button:hover { color: var(--lime); }
+
+.hero { display: flex; justify-content: space-between; align-items: end; padding: 90px 0 70px; }
+.eyebrow, .section-label { color: var(--lime); margin: 0 0 20px; font-weight: 700; }
+h1, h2, p { margin-top: 0; }
+h1 { margin-bottom: 25px; font-size: clamp(43px, 7vw, 88px); line-height: .92; letter-spacing: -.06em; }
+h1 span { color: var(--lime); }
+.hero-description { max-width: 430px; color: var(--muted); line-height: 1.65; font-size: 15px; }
+.hero-tagline { margin: 32px 0 0; font-weight: 700; letter-spacing: .2em; font-size: 12px; }
+.scoreboard { display: flex; align-items: center; gap: 20px; }
+.score { min-width: 92px; }
+.score-label { display: block; color: var(--muted); margin-bottom: 8px; }
+.score strong { font-size: 56px; letter-spacing: -.07em; }
+.score-computer strong { color: var(--lime); }
+.score-divider { color: var(--line); font-size: 42px; }
+
+.game-panel { padding: 32px; background: var(--panel); border: 1px solid var(--line); }
+.panel-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 30px; }
+.panel-heading .section-label { margin-bottom: 10px; }
+h2 { margin-bottom: 0; font-size: 25px; letter-spacing: -.04em; }
+.status { max-width: 250px; margin: 0; color: var(--muted); font-size: 13px; text-align: right; line-height: 1.4; }
+.choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.choice-card { min-height: 180px; padding: 25px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; border: 1px solid var(--line); background: transparent; color: var(--white); text-align: left; transition: .2s ease; }
+.choice-card:hover, .choice-card.selected { border-color: var(--lime); background: #1b2410; transform: translateY(-4px); }
+.choice-icon { font-size: 45px; filter: grayscale(1); }
+.choice-card:hover .choice-icon, .choice-card.selected .choice-icon { filter: none; }
+.choice-name { font-size: 21px; font-weight: 700; }
+.choice-hint { color: var(--muted); font-size: 12px; }
+.reset-button { display: block; margin: 22px 0 0 auto; border: 0; background: none; color: var(--muted); font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.reset-button:hover { color: var(--lime); }
+.footer { display: flex; justify-content: space-between; padding: 27px 0; color: #5d625c; }
+
+dialog { max-width: 420px; padding: 36px; border: 1px solid var(--lime); background: var(--panel); color: var(--white); }
+dialog::backdrop { background: rgb(0 0 0 / 75%); }
+dialog h2 { margin-bottom: 16px; }
+dialog p, dialog li { color: var(--muted); line-height: 1.6; }
+.dialog-close { position: absolute; top: 10px; right: 14px; border: 0; background: none; color: var(--muted); font-size: 25px; }
+
+@media (max-width: 650px) {
+  .app-shell { width: min(100% - 28px, 1180px); }
+  .topbar-meta > span:not(.online-dot) { display: none; }
+  .hero { display: block; padding: 60px 0 45px; }
+  .scoreboard { margin-top: 45px; }
+  .game-panel { padding: 20px; }
+  .panel-heading { display: block; }
+  .status { margin-top: 12px; text-align: left; }
+  .choices { grid-template-columns: 1fr; }
+  .choice-card { min-height: 125px; }
+}
